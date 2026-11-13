@@ -1,4 +1,27 @@
 
+def validate_sequence(sequence: str) -> bool:
+    """
+    Check whether a DNA sequence contains only valid nucleotides.
+
+    Valid nucleotides: A, T, G, C
+
+    Args:
+        sequence: A DNA sequence.
+
+    Returns:
+        True if the sequence is valid, False otherwise.
+    """
+
+    valid_nucleotides = {"A", "T", "G", "C"}
+
+    sequence = sequence.upper()
+
+    return bool(sequence) and all(
+        nucleotide in valid_nucleotides
+        for nucleotide in sequence
+    )
+
+
 def reverse_complement(sequence: str) -> str:
     """
     Calculate the reverse complement of a DNA sequence.
@@ -21,14 +44,8 @@ def reverse_complement(sequence: str) -> str:
     sequence = sequence.upper()
 
     # 2. Validate the sequence
-    valid_nucleotides = {"A", "T", "G", "C"}
-
-    if not sequence:
-        raise ValueError("DNA sequence cannot be empty.")
-
-    for nucleotide in sequence:
-        if nucleotide not in valid_nucleotides:
-            raise ValueError(f"Invalid nucleotide: {nucleotide}")
+    if not validate_sequence(sequence):
+        raise ValueError("Invalid or empty DNA sequence.")
 
     # 3. Define complementary base pairs
     complement = {
@@ -50,13 +67,11 @@ def reverse_complement(sequence: str) -> str:
     return reverse_complement_sequence
 
 
-# Test the function
+# Test the functions
 if __name__ == "__main__":
 
     test_sequence = "AAGTCG"
 
-    result = reverse_complement(test_sequence)
-
     print("Original sequence:", test_sequence)
-    print("Reverse complement:", result)
-    
+    print("Valid sequence:", validate_sequence(test_sequence))
+    print("Reverse complement:", reverse_complement(test_sequence))
