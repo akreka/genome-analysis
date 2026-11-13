@@ -66,12 +66,39 @@ def reverse_complement(sequence: str) -> str:
 
     return reverse_complement_sequence
 
+def calculate_kmers(sequence: str, k: int) -> dict:
+
+    sequence = sequence.upper()
+
+    if not validate_sequence(sequence):
+        raise ValueError("Invalid or empty DNA sequence.")
+
+    if k <= 0:
+        raise ValueError("k must be greater than zero.")
+
+    if k > len(sequence):
+        raise ValueError("k cannot exceed sequence length.")
+
+    counts = {}
+
+    for start in range(len(sequence) - k + 1):
+
+        # Extract the current k-mer
+        kmer = sequence[start:start + k]
+
+        # TODO: Update the frequency dictionary
+        counts[kmer] = counts.get(kmer, 0) + 1
+
+    return counts
+
+
 
 # Test the functions
 if __name__ == "__main__":
 
-    test_sequence = "AAGTCG"
+    test_sequence = "AAGtCG"
 
     print("Original sequence:", test_sequence)
     print("Valid sequence:", validate_sequence(test_sequence))
     print("Reverse complement:", reverse_complement(test_sequence))
+    print(calculate_kmers("ATATAT", 2))
